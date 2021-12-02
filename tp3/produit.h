@@ -9,24 +9,24 @@ namespace magasin{
 	class Product{
 	public:
 		Product(int id, std::string title, std::string description, 
-			    int quantity, float price, int quantite_choisi);
+			    int quantity, float price);
 		int id() const;
 		std::string title() const;
 		std::string description() const;
 		int quantity() const;
 		float price() const; 
-		int quantite_choisi() const;
-		void update_quatity(int q);
-		void update_quatity_choisi(int q);
-		friend std::ostream& operator<< (std::ostream& os, Product& product);
+		int quantite_client() const;
+		void update_quantity(int q);
+		void update_quantity_client(int q);
 	private:
 		int _id;
 		std::string _title;
 		std::string _description;
 		int _quantity;
 		float _price; 
-		int _quantite_choisi;
+		int _quantite_client = 0;
 	};
+	std::ostream& operator<< (std::ostream& os, const Product& product);
 }
 
 #endif

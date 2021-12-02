@@ -1,6 +1,6 @@
 #include "client.h"
 
-namespace person {
+namespace person{
 	Client::Client(int id, std::string firstname, std::string lastname) : _id(id), _firstname(firstname), _lastname(lastname){
 	}
 	int Client::id() const{
@@ -12,32 +12,44 @@ namespace person {
 	std::string Client::lastname() const{
 		return _lastname;
 	}
-	void Client::display_cart() const{
-		for(auto p in product : _cart)
-			std::cout << p.title() << std::endl;
+	std::vector<magasin::Product> Client::cart(){
+		return _cart;		
 	}
-	void Client::add_cart(Product p){
-		auto it = find(_cart.begin(), _cart.end(), product);
+	void Client::add_cart(magasin::Product& p){
+		auto it = std::find_if(_cart.begin(), _cart.end(), [p](const magasin::Product& obj){return p.id() == obj.id(); });
 		if(it == _cart.end()){
-			_cart.add(p);
+			p.update_quantity_client(1);
+			_cart.push_back(p);
 		}
 		else {
-			*it.update_quantity_choisi(1);
+			// Ajoute 1 à la quantité du produit s'il est déjà dans le panier
+			(*it).update_quantity_client( ((*it).quantite_client()) + 1 );
 		}
 	}
 	void Client::clear_cart(){
 		_cart.clear();
 	}
-	void Client::update_product_quantity(Product& product, int new_quantity){
-		product.update_quantity_choisi(new_quantity);
+	void Client::update_product_quantity(magasin::Product& product, int new_quantity){
+		auto it = std::find_if(_cart.begin(), _cart.end(), [product](const magasin::Product& obj){return product.id() == obj.id(); });
+		if(it != _cart.end()){
+			(*it).update_quantity_client(new_quantity);
+		}
+		else {
+			std::cout << "Ce produit n'est pas dans le panier !!!";
+		}
 	}
-	void Client::delete_product(Product& product){
-		auto it = find(_cart.begin(), _cart.end(), product);
+	void Client::delete_product(magasin::Product& p){
+		auto it = std::find_if(_cart.begin(), _cart.end(), [p](const magasin::Product& obj){return p.id() == obj.id(); });
 		if(it != _cart.end()){
 			_cart.erase(it);
 		} else {
-			std::cout << "Ce produit n'est pas dans ton panier" << std::endl;
+			std::cout << "Ce produit n'est pas dans le panier" << std::endl;
 		}
 	}
-	friend std::ostream& operator<< (std::ostream& os, Client& client);
+	std::ostream& operator<< (std::ostream& os, const Client& client){
+		os << client.firstname() << " " << client.lastname() << std::endl;
+		for(auto p : client._cart)
+			os << p.title() << " : " << p.quantite_client() << std::endl;
+		return os;
+	}
 }
