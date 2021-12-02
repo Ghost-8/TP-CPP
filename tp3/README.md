@@ -1,9 +1,10 @@
 # Description des classes (analyse du problème)
 
 
-## Produits
+## Produits OK					
 
 Varibles :
+* id : int 
 * titre : string
 * description : string
 * quantité : int 
@@ -18,7 +19,7 @@ Methodes ou fonctions (helper ou friend) :
 ## Clients
 
 Varibles :
-* id : 
+* id : int
 * prenom : string
 * nom : string
 * panier : vector  --> sera vidé lorsque la commande sera validée
@@ -38,7 +39,7 @@ Methodes ou fonctions (helper ou friend) :
 
 Varibles :
 * id_client : int (attribut id d'un objet client)
-* produits commandés : vector
+* produits commandés : vector de id_produit
 * statut : enum(livrée | pas livrée) 
 
 Methodes ou fonctions (helper ou friend) :
