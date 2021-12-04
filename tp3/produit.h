@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <assert.h>
+#include <vector>
+#include <algorithm>
 
 namespace magasin{
 	class Product{
@@ -26,6 +28,7 @@ namespace magasin{
 		float _price; 
 		int _quantite_client = 0;
 	};
+	std::vector<magasin::Product>::iterator find(std::vector<magasin::Product>& container, const magasin::Product& product);
 	std::ostream& operator<< (std::ostream& os, const Product& product);
 }
 

@@ -14,8 +14,9 @@ namespace magasin{
 	class Command{
 	public:
 		Command(person::Client client, std::vector<Product> cart, Status status);
-		void validate();
-		void update_command_status();  // nok
+		int id_client() const;
+		//std::vector<Product> cart() const;
+		void update_status(Status status);
 		friend std::ostream& operator<< (std::ostream& os, const Command& command);
 	private:
 		person::Client _client;

@@ -18,7 +18,7 @@ namespace person{
 			std::vector<magasin::Product> cart();
 			void add_cart(magasin::Product& p);
 			void clear_cart();
-			void update_product_quantity(magasin::Product& product, int new_quantity);
+			void update_product_quantity(const magasin::Product& product, int new_quantity);
 			void delete_product(magasin::Product& product);
 			friend std::ostream& operator<< (std::ostream& os, const Client& client);
 		private:
@@ -27,6 +27,8 @@ namespace person{
 			std::string _lastname;
 			std::vector<magasin::Product> _cart;
 	};
+	std::vector<person::Client>::iterator find(const std::vector<person::Client>::iterator it_begin, const std::vector<person::Client>::iterator it_end, const int id);
+	std::vector<person::Client>::iterator find(const std::vector<person::Client>::iterator it_begin, const std::vector<person::Client>::iterator it_end, const std::string name);
 }
 
 #endif
