@@ -46,7 +46,7 @@ Methodes ou fonctions (helper ou friend) :
 * constructor ok
 * surcharge operator <<  ok
 
-## Magasin 
+## Magasin OK
 
 Variables : 
 * produits : vector
