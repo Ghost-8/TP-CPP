@@ -2,6 +2,7 @@
 *.d
 app
 Resume.txt
+*.pdf
 key_github
 key_github.pub
 .~lock.key_github.pub#
