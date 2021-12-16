@@ -1,0 +1,9 @@
+Afin de s’approcher de ce protocole de chiffrement parfait, il faut trouver un moyen de générer facilement de longues
+clés, comme si elles avaient été générées au hasard. Nous allons étudier deux exemples utilisés en pratique à la fin du
+siècle dernier, une méthode électro-mécanique : la machine Enigma et une méthode numérique : le D E S .
+La machine Enigma est une machine électro-mécanique qui ressemble à une machine à écrire. Lorsque qu’une touche
+est enfoncée, des disques internes sont actionnés et le caractère crypté s’allume. Cette machine, qui sert aussi au
+déchiffrement, était utilisée pour les communications de l’armée allemande durant la seconde guerre mondiale. Ce
+que les Allemands ne savaient pas, c’est que les services secrets polonais et britanniques avaient réussi à percer les
+secrets de cette machine et étaient capables de déchiffrer les messages transmis par les allemands. Ce long travail
+d’études et de recherches a nécessité tout le génie d’Alan Turing et l’invention de l’ancêtre de l’ordinateur.
