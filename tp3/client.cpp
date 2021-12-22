@@ -15,12 +15,12 @@ namespace person{
 		return _lastname;
 	}
 
-	std::vector<magasin::Product> Client::cart(){
+	std::vector<magasin::Product> Client::cart() const{
 		return _cart;		
 	}
 
 	void Client::add_cart(magasin::Product& product){
-		auto it = magasin::find(_cart, product);
+		auto it = magasin::find_product(_cart, product);
 		if(it == _cart.end()){
 			product.update_quantity_client(1);
 			_cart.push_back(product);
@@ -35,29 +35,37 @@ namespace person{
 		_cart.clear();
 	}
 
-	void Client::update_product_quantity(const magasin::Product& product, int new_quantity){
-		auto it = magasin::find(_cart, product);
+	void Client::update_product_quantity(const magasin::Product& product, const int new_quantity){
+		auto it = magasin::find_product(_cart, product);
 		if(it != _cart.end()){
-			(*it).update_quantity_client(new_quantity);
+			std::cout << "Ce produit n'est pas dans le panier !!!\n";
 		}
 		else {
-			std::cout << "Ce produit n'est pas dans le panier !!!";
+			(*it).update_quantity_client(new_quantity);
 		}
 	}
 
-	void Client::delete_product(magasin::Product& product){
-		auto it = magasin::find(_cart, product);
+	void Client::delete_product(const magasin::Product& product){
+		auto it = magasin::find_product(_cart, product);
 		if(it != _cart.end()){
 			_cart.erase(it);
 		} else {
-			std::cout << "Ce produit n'est pas dans le panier" << std::endl;
+			std::cout << "Ce produit n'est pas dans le panier.\n" << std::endl;
 		}
 	}
 
 	std::ostream& operator<< (std::ostream& os, const Client& client){
 		os << client.firstname() << " " << client.lastname() << std::endl;
-		for(auto p : client._cart)
+		for(auto p : client.cart())
 			os << p.title() << " : " << p.quantite_client() << std::endl;
 		return os;
+	}
+	std::vector<person::Client>::iterator find(std::vector<person::Client>& container, const Client& client){
+		auto it = std::find_if(container.begin(), container.end(), [client](const Client& obj){ return obj.id() == client.id(); });
+		return it;
+	}
+	std::vector<person::Client>::iterator find(std::vector<person::Client>& container, const int id_client){
+		auto it = std::find_if(container.begin(), container.end(), [id_client](const Client& obj){ return obj.id() == id_client; });
+		return it;
 	}
 }

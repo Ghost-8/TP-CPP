@@ -37,18 +37,18 @@ int main(int argc, char const *argv[]){
 	store.new_product(p9);
 	store.new_product(p10);
 
-	c1.add_cart(p2);
-	c1.add_cart(p3);
-	c1.add_cart(p4);
-	c1.add_cart(p5);
+	store.add_cart(c1, p2);
+	store.add_cart(c1, p3);
+	store.add_cart(c1, p4);
+	store.add_cart(c1, p5);
 
-	c2.add_cart(p1);
-	c2.add_cart(p6);
-	c2.add_cart(p7);
-	c2.add_cart(p8);
-	c2.add_cart(p9);
+	store.add_cart(c2, p1);
+	store.add_cart(c2, p6);
+	store.add_cart(c2, p7);
+	store.add_cart(c2, p8);
+	store.add_cart(c2, p9);
 
-	c5.add_cart(p10);
+	store.add_cart(c5, p10);
 
 	int id_cmd = 0;
 
@@ -60,8 +60,7 @@ int main(int argc, char const *argv[]){
 	store.validate(cmd2, c2);
 	store.validate(cmd3, c5);
 
-	int menu;
-	int sous_menu;
+	char menu, sous_menu;
 
 	std::cout << "Bienvenue !" << std::endl << std::endl;
 	do{
@@ -70,9 +69,10 @@ int main(int argc, char const *argv[]){
 		std::cout << "1 : Gestion du magasin" << std::endl;
 		std::cout << "2 : Gestion des utilisateurs" << std::endl;
 		std::cout << "3 : Gestion des commandes" << std::endl;
-		std::cout << "Une autre touche pour quitter !" << std::endl << std::endl;
+		std::cout << "* : Une autre touche pour quitter !" << std::endl << std::endl;
+		
 		std::cin >> menu;
-		if(menu == 1){
+		if(menu == '1'){
 			do{
 				std::cout << std::endl;
 				std::cout << "Vous êtes dans la section *Gestion du magasin*" << std::endl;
@@ -80,98 +80,135 @@ int main(int argc, char const *argv[]){
 				std::cout << "1 : Ajout d'un produit" << std::endl;
 				std::cout << "2 : Affichage des produits" << std::endl;
 				std::cout << "3 : Mise à jour des quantités" << std::endl;
-				std::cout << "4 : Pour revenir en arrière" << std::endl << std::endl;
+				std::cout << "4 : Pour revenir en arrière" << std::endl;
+				std::cout << "* : Une autre touche pour quitter !" << std::endl << std::endl;
 				std::cin >> sous_menu;
-				if(sous_menu == 1){					
+				if(sous_menu == '1'){					
 					std::cout << "id : ";
 					int id;
-					std::cin >> id;					
+					if(!(std::cin >> id)){
+						std::cout << "Mauvaise manipulation, exit !!!\n";
+						return EXIT_FAILURE;
+					}					
 					std::cout << "titre : ";
 					std::string title;
-					std::cin >> title;					
+					std::cin.ignore();
+					std::getline(std::cin, title);
 					std::cout << "Description : ";
 					std::string description;
-					std::cin >> description;
+					std::getline(std::cin, description);
 					std::cout << "Quantité : ";
 					int quantity;
-					std::cin >> quantity;				
+					if(!(std::cin >> quantity)){
+						std::cout << "Mauvaise manipulation, exit !!!\n";
+						return EXIT_FAILURE;
+					}				
 					std::cout << "Prix : ";
 					float price;
-					std::cin >> price;
+					if(!(std::cin >> price)){
+						std::cout << "Mauvaise manipulation, exit !!!\n";
+						return EXIT_FAILURE;
+					}
 					std::cout << std::endl;
 					magasin::Product p(id, title, description, quantity, price);
-					store.new_product(p);
-					std::cout << "Opération effectuée avec succès !!! \n";
+					if(store.new_product(p)){
+						std::cout << "Opération effectuée avec succès !!!\n";
+					}
 				}
-				else if(sous_menu == 2){
+				else if(sous_menu == '2'){
 					store.display_product();
 				}
-				else if(sous_menu == 3){
+				else if(sous_menu == '3'){
 					std::cout << "id du produit : ";
 					int id;
-					std::cin >> id;
+					if(!(std::cin >> id)){
+						std::cout << "Mauvaise manipulation, exit !!!\n";
+						return EXIT_FAILURE;
+					}	
 					std::cout << "nouvelle quantité : ";
 					int new_quantity;
-					std::cin >> new_quantity;
+					if(!(std::cin >> new_quantity)){
+						std::cout << "Mauvaise manipulation, exit !!!\n";
+						return EXIT_FAILURE;
+					}	
 					auto list = store.products();
 					auto it = magasin::find(list, id);
-					store.update_product_quantity(*it, new_quantity);
-					std::cout << "Mis à jour effectué" << std::endl;				
+					store.update_product_quantity(*it, new_quantity);				
+				}
+				else if(sous_menu == '4'){}
+				else {
+					menu = FAILURE;
 				}
 
-			} while(sous_menu > 0 && sous_menu < 4);
+			} while(sous_menu > '0' && sous_menu < '4');
 		}
-		else if(menu == 2){
+		else if(menu == '2'){
 			do{
+				std::cout << std::endl;
 				std::cout << "Vous êtes dans la section *Gestion des utilisateurs*" << std::endl;
 				std::cout << "Choisissez une action en entrant le chiffre correspondant : " << std::endl;
 				std::cout << "1 : Ajout d'un client" << std::endl;
 				std::cout << "2 : Affichage des clients" << std::endl;
 				std::cout << "3 : Chercher un client" << std::endl;
-				std::cout << "4 : Pour revenir en arrière" << std::endl;		
+				std::cout << "4 : Pour revenir en arrière" << std::endl;
+				std::cout << "* : Une autre touche pour quitter !" << std::endl << std::endl;
+
 				std::cin >> sous_menu;
-				if(sous_menu == 1){
+				if(sous_menu == '1'){
 					std::cout << "id : ";
 					int id;
-					std::cin >> id;
+					if(!(std::cin >> id)){
+						std::cout << "Mauvaise manipulation, exit !!!\n";
+						return EXIT_FAILURE;
+					}
 					std::cout << "Prénom : ";
 					std::string prenom;
-					std::cin >> prenom;
+					std::cin.ignore();
+					std::getline(std::cin, prenom);
 					std::cout << "Nom : ";
 					std::string nom;
-					std::cin >> nom;
+					std::getline(std::cin, nom);
 					person::Client client(id, prenom, nom);
-					store.new_client(client);
-					std::cout << "Opération effectuée avec succès !!!\n";
+					if(store.new_client(client)){
+						std::cout << "\nOpération effectuée avec succès !!!\n\n";
+					}
 				}
-				else if(sous_menu == 2){
+				else if(sous_menu == '2'){
 					store.display_client();
 					std::cout << std::endl;
 				}
-				else if(sous_menu == 3){
-					std::cout << "Tapez 0 pour une recherche par id et 1 pour une recherche par nom ou prénom" << std::endl;
-					int search;
+				else if(sous_menu == '3'){
+					std::cout << "Tapez 0 pour une recherche par id et 1 pour une recherche par nom ou prénom :" << std::endl;
+					char search;
 					std::cin >> search;
-					if(!search){
+					if(search == '0'){
 						std::cout << "Veuillez saisir l'id du client : ";
 						int id;
-						std::cin >> id;
+						if(!(std::cin >> id)){
+							std::cout << "Mauvaise manipulation, exit !!!\n";
+							return EXIT_FAILURE;
+						}
 						store.find_client(id);
 					}
-					else if(search){
+					else if(search == '1'){
 						std::cout << "Veuillez saisir le nom ou le prénom du client : ";
 						std::string name;
-						std::cin >> name;
+						std::cin.ignore();
+						std::getline(std::cin, name);
 						store.find_client(name);
 					}
 					else{
-						std::cout << "Vous n'avez pas saisi le bon chiffre, abandon de l'opération" << std::endl;
+						std::cout << "\nVous n'avez pas saisi le bon chiffre, abandon de l'opération\n";
 					}
 				}
+				else if(sous_menu == '4'){}
+				else {
+					menu = FAILURE;
+				}
 
-			} while(sous_menu > 0 && sous_menu < 4);
+			} while(sous_menu > '0' && sous_menu < '4');
 		}
-		else if(menu == 3){
+		else if(menu == '3'){
 			do{
 				std::cout << "Vous êtes dans la section *Gestion des commandes*" << std::endl;
 				std::cout << "Choisissez une action en entrant le chiffre correspondant : " << std::endl;
@@ -179,14 +216,19 @@ int main(int argc, char const *argv[]){
 				std::cout << "2 : Mise à jour du statut des commandes" << std::endl;
 				std::cout << "3 : Affichage des commandes d'un client" << std::endl;
 				std::cout << "4 : Pour revenir en arrière" << std::endl;
+				std::cout << "* : Une autre touche pour quitter !" << std::endl << std::endl;
+
 				std::cin >> sous_menu;
-				if(sous_menu == 1){
+				if(sous_menu == '1'){
 					store.display_command();
 				}
-				else if(sous_menu == 2){
+				else if(sous_menu == '2'){
 					std::cout << "id de la commande à mettre à jour : ";
 					int id;
-					std::cin >> id;
+					if(!(std::cin >> id)){
+						std::cout << "Mauvaise manipulation, exit !!!\n";
+						return EXIT_FAILURE;
+					}
 					std::cout << "Entrez D pour livré ou N pour non delivré : ";
 					char state;
 					std::cin >> state;
@@ -195,11 +237,9 @@ int main(int argc, char const *argv[]){
 					if(it != cmd_list.end()){
 						if (state == 'D' || state == 'd'){
 							store.update_command_status(*it, magasin::Status::delivered);
-							std::cout << "Opération effectuée avec succès\n";
 						}
 						else if (state == 'N' || state == 'n'){
 							store.update_command_status(*it, magasin::Status::not_delivered);
-							std::cout << "Opération effectuée avec succès !!! \n";
 						} else{
 							std::cout << "Opération abandonnée, votre saisi ne correspond ni à un D ni à un N" << std::endl;
 						}
@@ -209,20 +249,23 @@ int main(int argc, char const *argv[]){
 					}
 					std::cout << std::endl;
 				}
-				else if(sous_menu == 3){
+				else if(sous_menu == '3'){
 					std::cout << "Tapez 0 pour une recherche par id et 1 pour une recherche par nom ou prénom : ";
-					int search;
+					char search;
 					std::cin >> search;
-					if(!search){
+					if(search == '0'){
 						std::cout << "Veuillez saisir l'id du client : ";
 						int id;
-						std::cin >> id;
-						auto cl_list = store.clients();
-						auto it = std::find_if(cl_list.begin(), cl_list.end(), [id](const person::Client& obj){ return id == obj.id();});
+						if(!(std::cin >> id)){
+							std::cout << "Mauvaise manipulation, exit !!!\n";
+							return EXIT_FAILURE;
+						}
+						auto list = store.clients();
+						auto it = person::find(list, id);
 						store.display_client_command(*it);
 						std::cout << std::endl;
 					}
-					else if(search){
+					else if(search == '1'){
 						std::cout << "Veuillez saisir le nom ou le prénom du client : ";
 						std::string name;
 						std::cin >> name;
@@ -232,16 +275,20 @@ int main(int argc, char const *argv[]){
 						std::cout << std::endl;
 					}
 					else{
-						std::cout << "Vous n'avez pas saisi le bon chiffre, abandon de l'opération" << std::endl;
+						std::cout << "\nVous n'avez pas saisi le bon chiffre, abandon de l'opération\n\n";
 					}
 				}
+				else if(sous_menu == '4'){}
+				else {
+					menu = FAILURE;
+				}
 				
-			} while(sous_menu > 0 && sous_menu < 6);
+			} while(sous_menu > '0' && sous_menu < '4');
 		}
 		else{
 			std::cout << "Merci de votre visite !" << std::endl;
 		}
-	}while((menu > 0 && menu < 4) || (sous_menu == 4) );
+	}while((menu > '0' && menu < '4') || (sous_menu == '4') );
 	
 	return 0;
 }
