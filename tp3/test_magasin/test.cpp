@@ -9,7 +9,6 @@ int main(int argc, char const *argv[]){
 	m.new_client(c1);
 	m.new_client(c2);
 	m.display_client();
-	std::cout << std::endl;
 
 	std::cout << "*Ajout de 4 produits*" << std::endl;
 	magasin::Product p1(1, "PS4", "Jeu vidéo", 10, 299.98);
@@ -31,15 +30,17 @@ int main(int argc, char const *argv[]){
 	m.add_cart(c1, p3);
 	m.add_cart(c2, p1);
 	m.add_cart(c2, p3);
-	magasin::Command cmd(c1, c1.cart(), magasin::Status::not_delivered);
-	magasin::Command cmd2(c2, c2.cart(), magasin::Status::not_delivered);
+	int id = 0;
+	auto cmd = m.make_command(++id, c1, magasin::Status::not_delivered);
+	auto cmd2 = m.make_command(++id, c2, magasin::Status::not_delivered);
 	m.validate(cmd, c1);
 	m.validate(cmd2, c2);
 	m.add_cart(c1, p1);
 	m.add_cart(c1, p2);
 	m.add_cart(c1, p3);
-	magasin::Command cmd3(c1, c1.cart(), magasin::Status::not_delivered);
+	auto cmd3 = m.make_command(++id, c1, magasin::Status::not_delivered);
 	m.validate(cmd3, c1);
+
 	std::cout << "*Liste des commandes après validation*" << std::endl;
 	m.display_command();
 
@@ -49,7 +50,8 @@ int main(int argc, char const *argv[]){
 	std::cout << std::endl;
 
 	std::cout << "*Valider une commande dont un produit indisponible*" << std::endl;
-	magasin::Command cmd4(c1, c1.cart(), magasin::Status::not_delivered);
+	
+	auto cmd4 = m.make_command(++id, c1, magasin::Status::not_delivered);
 	m.validate(cmd4, c1);
 	std::cout << std::endl;
 

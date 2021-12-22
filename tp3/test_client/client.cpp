@@ -20,7 +20,7 @@ namespace person{
 	}
 
 	void Client::add_cart(magasin::Product& product){
-		auto it = magasin::find(_cart, product);
+		auto it = magasin::find_product(_cart, product);
 		if(it == _cart.end()){
 			product.update_quantity_client(1);
 			_cart.push_back(product);
@@ -36,21 +36,21 @@ namespace person{
 	}
 
 	void Client::update_product_quantity(const magasin::Product& product, const int new_quantity){
-		auto it = magasin::find(_cart, product);
+		auto it = magasin::find_product(_cart, product);
 		if(it != _cart.end()){
-			(*it).update_quantity_client(new_quantity);
+			std::cout << "Ce produit n'est pas dans le panier !!!\n";
 		}
 		else {
-			std::cout << "Ce produit n'est pas dans le panier !!!";
+			(*it).update_quantity_client(new_quantity);
 		}
 	}
 
 	void Client::delete_product(const magasin::Product& product){
-		auto it = magasin::find(_cart, product);
+		auto it = magasin::find_product(_cart, product);
 		if(it != _cart.end()){
 			_cart.erase(it);
 		} else {
-			std::cout << "Ce produit n'est pas dans le panier" << std::endl;
+			std::cout << "Ce produit n'est pas dans le panier.\n" << std::endl;
 		}
 	}
 

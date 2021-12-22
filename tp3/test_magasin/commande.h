@@ -25,6 +25,8 @@ namespace magasin{
 		Status _status;
 	};
 	std::ostream& operator<< (std::ostream& os, const Command& command);
+	std::vector<magasin::Command>::iterator find_command(std::vector<magasin::Command>& container, const magasin::Command& command);
+	std::vector<magasin::Command>::iterator find_command(std::vector<magasin::Command>& container, const int id_command);
 }
 
 #endif

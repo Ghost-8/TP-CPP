@@ -29,4 +29,14 @@ namespace magasin{
 		}
 		return os;
 	}
+
+	std::vector<magasin::Command>::iterator find_command(std::vector<magasin::Command>& container, const magasin::Command& command){
+		auto it = std::find_if(container.begin(), container.end(), [command](const magasin::Command& obj){ return command.id() == obj.id(); });
+		return it;
+	}
+
+	std::vector<magasin::Command>::iterator find_command(std::vector<magasin::Command>& container, const int id_command){
+		auto it = std::find_if(container.begin(), container.end(), [id_command](const magasin::Command& obj){ return id_command == obj.id(); });
+		return it;
+	}
 }

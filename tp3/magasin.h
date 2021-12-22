@@ -14,7 +14,7 @@
 namespace magasin {
 	class Magasin {
 	public:
-		Magasin() = default;
+		Magasin();
 		std::vector<Product> products() const;
 		std::vector<person::Client> clients() const;
 		std::vector<Command> commands() const;
@@ -29,12 +29,16 @@ namespace magasin {
 		void find_client(const std::string name) const;
 		void display_client_command(const person::Client& client);
 		void validate(magasin::Command& command, person::Client& client);
-		void add_cart(person::Client& client, Product& product);
+		void add_cart(const person::Client& client, Product& product);
+		void update_client_quantity(const person::Client& client, const magasin::Product& product, const int q);
+		void delete_client_product(const person::Client& client, const magasin::Product& product);
+		Command make_command(int id, person::Client& client, Status status);
+
 	private:
 		std::vector<Product> _products;
 		std::vector<person::Client> _clients;
 		std::vector<Command> _commands;
-		void new_command(const Command& command);
+		int new_command(const Command& command);
 	};
 }
 
