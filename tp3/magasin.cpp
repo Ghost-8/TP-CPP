@@ -13,15 +13,31 @@ namespace magasin{
 		return _commands;
 	}
 
-	void Magasin::new_product(Product& product){
-		_products.push_back(product);
+	int Magasin::new_product(const Product& product){
+		auto it = find(_products, product.id());
+		if(it == _products.end()){
+			_products.push_back(product);
+			return FUN_SUCCESS;
+		}
+		else{
+			std::cout << "Cet identifiant est déjà attribué, opération abandonnée !!!\n";
+			return FUN_FAILURE;
+		}
 	}
 
-	void Magasin::new_client(person::Client& client){
-		_clients.push_back(client);
+	int Magasin::new_client(const person::Client& client){
+		auto it = std::find_if(_clients.begin(), _clients.end(), [client](person::Client obj){ return client.id() == obj.id(); });
+		if(it == _clients.end()){
+			_clients.push_back(client);
+			return FUN_SUCCESS;
+		}
+		else{
+			std::cout << "\nCet identifiant est déjà attribué, opération abandonnée !!!\n\n";
+			return FUN_FAILURE;
+		}
 	}
 
-	void Magasin::new_command(Command& command){
+	void Magasin::new_command(const Command& command){
 		_commands.push_back(command);
 	}
 
@@ -34,6 +50,7 @@ namespace magasin{
 	void Magasin::display_client() const{
 		for(auto c : _clients){
 			std::cout << c;
+			std::cout << std::endl;
 		}
 	}
 
@@ -44,7 +61,7 @@ namespace magasin{
 		}
 	}
 
-	void Magasin::update_product_quantity(const Product& product, int quantity){
+	void Magasin::update_product_quantity(const Product& product, const int quantity){
 		auto it = magasin::find(_products, product);
 		if(it != _products.end()){
 			if(quantity < 0){
@@ -52,37 +69,37 @@ namespace magasin{
 			}
 			else {
 				(*it).update_quantity(quantity);
+				std::cout << "\nMis à jour effectué avec succès !" << std::endl;
 			}
 		}
 		else {
-			std::cout << "Ce produit n'est pas enregistré dans le magasin !!!";
+			std::cout << "\nCe produit n'est pas enregistré dans le magasin !!!\n";
 		}
 	}
 
-	// À ameliorer
 	void Magasin::update_command_status(const Command& command, const Status status){
 			auto it = find_if(_commands.begin(), _commands.end(), [command](Command obj){ return obj.client().id() == command.client().id(); } );
 			if(it != _commands.end()){
 				(*it).update_status(status);
+				std::cout << "Opération effectuée avec succès\n";
 			} 
 			else{
 				std::cout << "Cette commande n'existe pas !!!" << std::endl;
 			}
 	}
 
-	void Magasin::find_client(int id) const{
-		auto it = _clients.begin();
-		while (it != _clients.end()) { 
-			it = std::find_if(it, _clients.end(), [id](const person::Client& obj){return id == obj.id(); });;
-			if (it != _clients.end()) { 
-            	auto index = std::distance(_clients.begin(), it); 
-            	std::cout << _clients.at(index);
-            	++it;
-			}
+	void Magasin::find_client(const int id) const{
+		auto it = std::find_if(_clients.begin(), _clients.end(), [id](const person::Client& obj){return id == obj.id(); });
+		if (it != _clients.end()) { 
+            auto index = std::distance(_clients.begin(), it); 
+           	std::cout << _clients.at(index);
+		}
+		else{
+			std::cout << "Aucun client n'a cet id, veuillez reessayer !\n";
 		}
 	}
 
-	void Magasin::find_client(std::string name) const{
+	void Magasin::find_client(const std::string name) const{
 		auto it = _clients.begin();
 		while (it != _clients.end()) { 
 			it = std::find_if(it, _clients.end(), [name](const person::Client& obj){return ( name == obj.firstname() || ( name == obj.lastname() ) ); });
@@ -104,7 +121,6 @@ namespace magasin{
             	++it;
 			}
 		}
-
 	}
 
 	void Magasin::validate(magasin::Command& command, person::Client& client){
@@ -122,9 +138,11 @@ namespace magasin{
 		}
 		client.clear_cart();
 	}
+
 	void Magasin::add_cart(person::Client& client, Product& product){
 		auto it = find(_products, product);
-		client.add_cart(product);
+		auto it2 = person::find(_clients, client);
+		(*it2).add_cart(product);
 		(*it).update_quantity( (*it).quantity() - 1 );
 	}
 }

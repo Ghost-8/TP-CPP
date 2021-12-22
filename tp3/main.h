@@ -8,5 +8,6 @@
 #include "client.h"
 #include "commande.h"
 #include "magasin.h"
+#define FAILURE '0'
 
 #endif

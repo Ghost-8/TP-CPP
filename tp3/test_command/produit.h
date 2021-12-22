@@ -17,8 +17,8 @@ namespace magasin{
 		int quantity() const;
 		float price() const; 
 		int quantite_client() const;
-		void update_quantity(int q);
-		void update_quantity_client(int q);
+		void update_quantity(const int q);
+		void update_quantity_client(int const q);
 	private:
 		int _id;
 		std::string _title;

@@ -3,7 +3,7 @@
 namespace encryption{
 	Enigma::Enigma(): Encrypt() {}
 
-	void transform_to_number(std::string& text, std::vector<int>& number){
+	void transform_to_number(const std::string& text, std::vector<int>& number){
 		int size = text.length();
 		number.assign(size, -128);
 		for(size_t i=0; i<text.length(); ++i){
@@ -16,7 +16,7 @@ namespace encryption{
 		}
 	}
 
-	void transform_to_string(std::vector<int>& number, std::string& text){
+	void transform_to_string(const std::vector<int>& number, std::string& text){
 		for(size_t i=0; i<number.size(); ++i){
 			if(number.at(i) >= A && number.at(i) <= Z){
 				text += (char)(number[i] + ASCII_a);

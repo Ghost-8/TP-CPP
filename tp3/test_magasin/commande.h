@@ -16,14 +16,15 @@ namespace magasin{
 		Command(int id, person::Client client, std::vector<Product> cart, Status status);
 		int id() const;
 		person::Client client() const;
+		Status status() const;
 		void update_status(Status status);
-		friend std::ostream& operator<< (std::ostream& os, const Command& command);
 	private:
 		int _id;
 		person::Client _client;
 		std::vector<Product> _cart;
 		Status _status;
 	};
+	std::ostream& operator<< (std::ostream& os, const Command& command);
 }
 
 #endif

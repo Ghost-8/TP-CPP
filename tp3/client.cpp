@@ -15,7 +15,7 @@ namespace person{
 		return _lastname;
 	}
 
-	std::vector<magasin::Product> Client::cart(){
+	std::vector<magasin::Product> Client::cart() const{
 		return _cart;		
 	}
 
@@ -35,7 +35,7 @@ namespace person{
 		_cart.clear();
 	}
 
-	void Client::update_product_quantity(const magasin::Product& product, int new_quantity){
+	void Client::update_product_quantity(const magasin::Product& product, const int new_quantity){
 		auto it = magasin::find(_cart, product);
 		if(it != _cart.end()){
 			(*it).update_quantity_client(new_quantity);
@@ -45,7 +45,7 @@ namespace person{
 		}
 	}
 
-	void Client::delete_product(magasin::Product& product){
+	void Client::delete_product(const magasin::Product& product){
 		auto it = magasin::find(_cart, product);
 		if(it != _cart.end()){
 			_cart.erase(it);
@@ -56,8 +56,16 @@ namespace person{
 
 	std::ostream& operator<< (std::ostream& os, const Client& client){
 		os << client.firstname() << " " << client.lastname() << std::endl;
-		for(auto p : client._cart)
+		for(auto p : client.cart())
 			os << p.title() << " : " << p.quantite_client() << std::endl;
 		return os;
+	}
+	std::vector<person::Client>::iterator find(std::vector<person::Client>& container, const Client& client){
+		auto it = std::find_if(container.begin(), container.end(), [client](const Client& obj){ return obj.id() == client.id(); });
+		return it;
+	}
+	std::vector<person::Client>::iterator find(std::vector<person::Client>& container, const int id_client){
+		auto it = std::find_if(container.begin(), container.end(), [id_client](const Client& obj){ return obj.id() == id_client; });
+		return it;
 	}
 }

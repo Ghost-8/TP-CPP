@@ -6,18 +6,22 @@ namespace magasin{
 	int Command::id() const{
 		return _id;
 	}
+
+	Status Command::status() const{
+		return _status;
+	}
 	
 	person::Client Command::client() const{
 		return _client;
 	}
 
-	void Command::update_status(Status status){
+	void Command::update_status(const Status status){
 		_status = status;
 	}
 	
 	std::ostream& operator<< (std::ostream& os, const Command& command){
-		os << command._client;
-		if( static_cast<int>(command._status) == 0 ){
+		os << command.client();
+		if( static_cast<int>(command.status()) == 0 ){
 			os << "Delivered" << std::endl;
 		}
 		else{
