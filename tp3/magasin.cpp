@@ -148,7 +148,7 @@ namespace magasin{
 		else{
 			(*this).new_command(command);
 		}
-		client.clear_cart();
+		(*it).clear_cart();
 	}
 
 	void Magasin::add_cart(const person::Client& client, Product& product){
@@ -168,9 +168,9 @@ namespace magasin{
 		(*it).delete_product(product);
 	}
 
-	Command Magasin::make_command(int id, person::Client& client, Status status){
+	Command Magasin::make_command(const int id, const person::Client& client, const Status status){
 		auto it = person::find(_clients, client);
-		magasin::Command cmd(id, (*it), (*it).cart(), magasin::Status::not_delivered);
+		magasin::Command cmd(id, (*it), magasin::Status::not_delivered);
 		return cmd;
 	}
 }

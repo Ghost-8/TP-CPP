@@ -13,7 +13,7 @@ namespace magasin{
 	};
 	class Command{
 	public:
-		Command(int id, person::Client client, std::vector<Product> cart, Status status);
+		Command(int id, person::Client client, Status status);
 		int id() const;
 		person::Client client() const;
 		Status status() const;
@@ -21,7 +21,6 @@ namespace magasin{
 	private:
 		int _id;
 		person::Client _client;
-		std::vector<Product> _cart;
 		Status _status;
 	};
 	std::ostream& operator<< (std::ostream& os, const Command& command);

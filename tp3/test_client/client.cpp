@@ -37,7 +37,7 @@ namespace person{
 
 	void Client::update_product_quantity(const magasin::Product& product, const int new_quantity){
 		auto it = magasin::find_product(_cart, product);
-		if(it != _cart.end()){
+		if(it == _cart.end()){
 			std::cout << "Ce produit n'est pas dans le panier !!!\n";
 		}
 		else {

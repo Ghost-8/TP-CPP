@@ -52,9 +52,9 @@ int main(int argc, char const *argv[]){
 
 	int id_cmd = 0;
 
-	magasin::Command cmd1(++id_cmd, c1, c1.cart(), magasin::Status::not_delivered);
-	magasin::Command cmd2(++id_cmd, c2, c2.cart(), magasin::Status::not_delivered);
-	magasin::Command cmd3(++id_cmd, c5, c5.cart(), magasin::Status::not_delivered);
+	magasin::Command cmd1(++id_cmd, c1, magasin::Status::not_delivered);
+	magasin::Command cmd2(++id_cmd, c2, magasin::Status::not_delivered);
+	magasin::Command cmd3(++id_cmd, c5, magasin::Status::not_delivered);
 
 	store.validate(cmd1, c1);
 	store.validate(cmd2, c2);
@@ -132,7 +132,7 @@ int main(int argc, char const *argv[]){
 						return EXIT_FAILURE;
 					}	
 					auto list = store.products();
-					auto it = magasin::find(list, id);
+					auto it = magasin::find_product(list, id);
 					store.update_product_quantity(*it, new_quantity);				
 				}
 				else if(sous_menu == '4'){}
@@ -233,7 +233,7 @@ int main(int argc, char const *argv[]){
 					char state;
 					std::cin >> state;
 					auto cmd_list = store.commands();
-					auto it = find_if(cmd_list.begin(), cmd_list.end(), [id](magasin::Command obj){return id == obj.id();});
+					auto it = find_command(cmd_list, id);
 					if(it != cmd_list.end()){
 						if (state == 'D' || state == 'd'){
 							store.update_command_status(*it, magasin::Status::delivered);

@@ -32,7 +32,6 @@ namespace magasin{
 
 	void Product::update_quantity(const int q){
 		if(q < 0){
-			std::cout << "La quantité doit être supérieure ou égale à 0\n";
 			return;
 		}
 		else{

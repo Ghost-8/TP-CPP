@@ -1,7 +1,7 @@
 #include "commande.h"
 
 namespace magasin{
-	Command::Command(int id, person::Client client, std::vector<Product> cart, Status status): _id(id), _client(client), _cart(cart), _status(status) {}
+	Command::Command(int id, person::Client client, Status status): _id(id), _client(client), _status(status) {}
 
 	int Command::id() const{
 		return _id;

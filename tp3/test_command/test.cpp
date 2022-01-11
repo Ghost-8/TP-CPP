@@ -13,7 +13,7 @@ int main(int argc, char const *argv[]){
 	c1.add_cart(p2);
 	c1.add_cart(p3);
 	int id = 1;
-	magasin::Command cmd(id, c1, c1.cart(), magasin::Status::not_delivered);
+	magasin::Command cmd(id, c1, magasin::Status::not_delivered);
 	std::cout << cmd;
 	std::cout << std::endl;
 

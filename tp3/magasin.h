@@ -32,7 +32,7 @@ namespace magasin {
 		void add_cart(const person::Client& client, Product& product);
 		void update_client_quantity(const person::Client& client, const magasin::Product& product, const int q);
 		void delete_client_product(const person::Client& client, const magasin::Product& product);
-		Command make_command(int id, person::Client& client, Status status);
+		Command make_command(const int id, const person::Client& client, const Status status);
 
 	private:
 		std::vector<Product> _products;
