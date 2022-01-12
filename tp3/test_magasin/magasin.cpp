@@ -136,9 +136,10 @@ namespace magasin{
 	void Magasin::validate(magasin::Command& command, person::Client& client){
 		bool test = true;
 		auto it = person::find(_clients, client.id());
-		auto list = (*it).cart();
+		auto list = command.cart();
 		for(auto i : list){
-			if(i.quantity() <= 0){
+			auto it2 = magasin::find_product(_products,i);
+			if((*it2).quantity() <= 0){
 				test = false;
 			}
 		}

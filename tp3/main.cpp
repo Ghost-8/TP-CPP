@@ -52,9 +52,10 @@ int main(int argc, char const *argv[]){
 
 	int id_cmd = 0;
 
-	magasin::Command cmd1(++id_cmd, c1, magasin::Status::not_delivered);
-	magasin::Command cmd2(++id_cmd, c2, magasin::Status::not_delivered);
-	magasin::Command cmd3(++id_cmd, c5, magasin::Status::not_delivered);
+	auto cmd1 = store.make_command(++id_cmd, c1, magasin::Status::not_delivered);
+	auto cmd2 = store.make_command(++id_cmd, c2, magasin::Status::not_delivered);
+	auto cmd3 = store.make_command(++id_cmd, c5, magasin::Status::not_delivered);
+	//std::cout << cmd1;
 
 	store.validate(cmd1, c1);
 	store.validate(cmd2, c2);

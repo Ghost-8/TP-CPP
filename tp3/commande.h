@@ -17,6 +17,7 @@ namespace magasin{
 		int id() const;
 		person::Client client() const;
 		Status status() const;
+		std::vector<magasin::Product> cart() const;
 		void update_status(Status status);
 	private:
 		int _id;

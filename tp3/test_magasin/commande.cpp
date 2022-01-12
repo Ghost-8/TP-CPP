@@ -15,6 +15,10 @@ namespace magasin{
 		return _client;
 	}
 
+	std::vector<magasin::Product> Command::cart() const{
+		return _client.cart();
+	}
+
 	void Command::update_status(const Status status){
 		_status = status;
 	}
